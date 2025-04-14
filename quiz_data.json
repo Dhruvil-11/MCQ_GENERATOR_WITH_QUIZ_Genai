@@ -1,0 +1,22 @@
+{
+  "1": {
+    "mcq": "Which of the following is NOT a fundamental category of machine learning algorithms?",
+    "options": {
+      "a": "Supervised learning",
+      "b": "Unsupervised learning",
+      "c": "Reinforcement learning",
+      "d": "Inferential learning"
+    },
+    "correct": "d"
+  },
+  "2": {
+    "mcq": "In supervised machine learning, what is the primary objective of a classification task?",
+    "options": {
+      "a": "To estimate the probability distribution of unseen data points",
+      "b": "To group similar data points into clusters",
+      "c": "To assign data points to predefined categories based on learned patterns",
+      "d": "To predict continuous values based on input features"
+    },
+    "correct": "c"
+  }
+}

@@ -1,0 +1,79 @@
+Machine Learning Tutorial
+Last Updated : 24 Jan, 2025
+Machine learning is a subset of Artificial Intelligence (AI) that enables computers to learn from data and make predictions without being explicitly programmed. If you're new to this field, this tutorial will provide a comprehensive understanding of machine learning, its types, algorithms, tools, and practical applications.
+
+Module 1: Introduction to Machine Learning
+Machine learning teaches computers to recognize patterns and make decisions automatically using data and algorithms.
+
+It can be broadly categorized into three types:
+
+Supervised Learning: Trains models on labeled data to predict or classify new, unseen data.
+Unsupervised Learning: Finds patterns or groups in unlabeled data, like clustering or dimensionality reduction.
+Reinforcement Learning: Learns through trial and error to maximize rewards, ideal for decision-making tasks.
+In addition these categories, there are also Semi-Supervised Learning and Self-Supervised Learning. 
+
+Semi-Supervised Learning uses a mix of labeled and unlabeled data, making it helpful when labeling data is costly or time-consuming. 
+Self-Supervised Learning creates its own labels from raw data, allowing it to learn patterns without needing labeled examples. 
+Machine Learning Pipeline
+
+Machine learning is fundamentally built upon data, which serves as the foundation for training and testing models. Data consists of inputs (features) and outputs (labels). A model learns patterns during training and is tested on unseen data to evaluate its performance and generalization. In order to make predictions, there are essential steps through which data passes in order to produce a machine learning model that can make predictions.
+
+ML workflow
+Data Cleaning
+Feature Scaling
+Data Preprocessing in Python
+Module 2: Supervised Learning
+Supervised learning algorithms are generally categorized into two main types: 
+
+Classification - where the goal is to predict discrete labels or categories 
+Regression - where the aim is to predict continuous numerical values.
+There are many algorithms used in supervised learning, each suited to different types of problems. Some of the most commonly used supervised learning algorithms include:
+
+1. Linear Regression
+
+Introduction to Linear Regression
+Gradient Descent in Linear Regression
+Linear regression (Python Implementation from scratch)
+Linear regression implementation using sklearn
+Rainfall prediction - Project
+Boston Housing Kaggle Challenge - Project
+Ridge Regression
+Lasso regression
+Elastic net Regression
+Implementation of Lasso, Ridge and Elastic Net
+2. Logistic Regression
+
+Understanding Logistic Regression
+Cost function in Logistic Regression
+Logistic regression Implementation from scratch
+Heart Disease Prediction - Project
+Breast Cancer Wisconsin Diagnosis - Project
+3. Decision Trees
+
+Decision Tree in Machine Learning
+Feature selection using Decision Tree
+Decision Tree - Regression (Implementation)
+Decision tree - Classification (Implementation)
+Types of Decision tree algorithms
+4. Support Vector Machines (SVM)
+
+Understanding SVMs
+Support Vector Machines(SVMs) implementation
+SVM Hyperparameter Tuning - GridSearchCV
+Non-Linear SVM
+Implementing SVM on non-linear dataset
+5. k-Nearest Neighbors (k-NN)
+
+Introduction to KNN
+Decision Boundaries in K-Nearest Neighbors (KNN)
+Implementation from scratch
+KNN classifier - Project
+6. Naive Bayes
+
+Introduction to Naive Bayes
+Naive Bayes Scratch Implementation
+Gaussian Naive Bayes
+Implementation of Gaussian naive bayes
+Multinomial Naive Bayes
+Bernoulli Naive Bayes
+Complement Naive Bayes

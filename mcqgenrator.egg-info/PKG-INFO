@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: mcqgenrator
+Version: 0.0.1
+Author: Mohammed Afzal
+Author-email: mhdafz9@gmail.com
+Requires-Dist: langchain_google_genai
+Requires-Dist: langchain
+Requires-Dist: streamlit
+Requires-Dist: PyPDF2
