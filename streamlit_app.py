@@ -2,6 +2,8 @@ import json
 import pandas as pd
 import traceback
 import streamlit as st
+import ast
+
 from src.mcq_gen.utils import read_file, extract_mcqs_to_df, get_gemini_feedback
 from src.mcq_gen.MCQ_Gen import generate_quiz
 
@@ -50,7 +52,7 @@ if button and uploaded_file and mcq_count and subject and level:
 
                 elif mode == "Take a Quiz":
                     st.session_state.quiz_df = df
-                    st.session_state.quiz_data = quiz
+                    st.session_state.quiz_data = table_data
                     st.session_state.show_quiz = True
                     st.rerun()
 
@@ -67,8 +69,19 @@ if st.session_state.get("show_quiz", False):
 
         for idx, row in df.iterrows():
             st.subheader(f"Q{idx}: {row['mcq']}")
-            options = row["options"]
-            user_choice = st.radio(f"Your answer for Q{idx}:", options, key=f"q_{idx}")
+
+            # Convert string to dict if needed
+            if isinstance(row["options"], str):
+                options_dict = ast.literal_eval(row["options"])
+            else:
+                options_dict = row["options"]
+
+            user_choice = st.radio(
+                f"Your answer for Q{idx}:", 
+                list(options_dict.keys()), 
+                format_func=lambda x: f"{x}: {options_dict[x]}",
+                key=f"q_{idx}"
+            )
             user_answers.append(user_choice)
 
         if st.button("Submit Quiz"):
@@ -86,12 +99,8 @@ if st.session_state.get("show_quiz", False):
             if wrong:
                 st.header("🧠 Review Your Mistakes")
 
-    # If quiz_data is still a JSON string, convert it once
-                if isinstance(quiz_data, str):
-                    quiz_data = extract_mcqs_to_df(quiz_data)
-
                 for qid, user_ans, correct_ans in wrong:
-                    q_index = int(qid) - 1  # Because df index starts at 1, list is 0-based
+                    q_index = int(qid) - 1
                     question_obj = quiz_data[q_index]
 
                     mcq_text = question_obj["mcq"]
