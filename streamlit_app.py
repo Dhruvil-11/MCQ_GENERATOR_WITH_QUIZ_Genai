@@ -8,7 +8,7 @@ from src.mcq_gen.utils import read_file, extract_mcqs_to_df, get_gemini_feedback
 from src.mcq_gen.MCQ_Gen import generate_quiz
 
 # Load response JSON
-with open(r'/Users/dhruvil/MCQ_GENERATOR_MAIN/resp.json', 'r') as file:
+with open(r'resp.json', 'r') as file:
     RESPONSE_JSON = json.load(file)
 
 st.title("Auto MCQ Creator with Langchain and Gemini API")
