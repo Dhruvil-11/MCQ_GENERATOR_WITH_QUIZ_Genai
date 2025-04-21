@@ -36,7 +36,7 @@ def generate_quiz(TEXT, NUMBER, SUBJECT, LEVEL, RESPONSE_JSON):
     )
 
     # Read the API key
-    with open('api_key.txt2', 'r') as file:
+    with open('api_key2.txt', 'r') as file:
         KEY = file.read()
 
     os.environ["GOOGLE_API_KEY"] = KEY
