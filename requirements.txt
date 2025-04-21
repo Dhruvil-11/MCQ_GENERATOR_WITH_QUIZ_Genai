@@ -2,5 +2,6 @@ langchain_google_genai
 langchain
 streamlit
 PyPDF2
+google-generativeai
 
 -e .
