@@ -4,4 +4,6 @@ streamlit
 PyPDF2
 google-generativeai
 
+
+
 -e .

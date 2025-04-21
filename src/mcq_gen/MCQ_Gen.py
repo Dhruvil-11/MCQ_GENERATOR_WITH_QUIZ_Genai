@@ -14,7 +14,7 @@ def load_template(file_path):
 
 def generate_quiz(TEXT, NUMBER, SUBJECT, LEVEL, RESPONSE_JSON):
     # Load combined template from a .txt file
-    combined_template = load_template('templates.txt')
+    combined_template = load_template('TEMPLATES.txt')
 
     # Split the combined template into parts for different purposes
     templates = combined_template.split('\n\n')
