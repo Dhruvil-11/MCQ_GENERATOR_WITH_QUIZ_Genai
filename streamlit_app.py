@@ -11,6 +11,7 @@ from src.mcq_gen.MCQ_Gen import generate_quiz
 with open('resp.json', 'r') as file:
     RESPONSE_JSON = json.load(file)
 
+st.set_page_config(layout="centered")
 st.title("Auto MCQ Creator with Langchain and Gemini API")
 
 # --- Form for uploading file and entering quiz settings ---
@@ -57,7 +58,6 @@ if button and uploaded_file and mcq_count and subject and level:
                     st.rerun()
 
 # --- Quiz Mode ---
-# --- Quiz Mode ---
 if st.session_state.get("show_quiz", False):
     df = st.session_state.get("quiz_df")
     quiz_data = st.session_state.get("quiz_data")
@@ -71,26 +71,24 @@ if st.session_state.get("show_quiz", False):
         for idx, row in df.iterrows():
             st.subheader(f"Q{idx}: {row['mcq']}")
 
-            # Convert string to dict if needed
             if isinstance(row["options"], str):
                 options_dict = ast.literal_eval(row["options"])
             else:
                 options_dict = row["options"]
 
             option_keys = list(options_dict.keys())
-            placeholder_option = "Select an option"
-            options_with_placeholder = [placeholder_option] + option_keys
+            options_with_blank = [" "] + option_keys
 
             user_choice = st.radio(
                 f"Your answer for Q{idx}:",
-                options_with_placeholder,
-                format_func=lambda x: f"{x}: {options_dict[x]}" if x in options_dict else x,
-                index=0,
-                key=f"q_{idx}"
+                options_with_blank,
+                format_func=lambda x: f"{x}: {options_dict[x]}" if x in options_dict else "Select an option",
+                key=f"q_{idx}",
+                index=0
             )
 
-            selected_key = user_choice if user_choice != placeholder_option else None
-            user_answers.append(selected_key)
+            user_selected = user_choice if user_choice != " " else None
+            user_answers.append(user_selected)
 
         if st.button("Submit Quiz"):
             unanswered = [i + 1 for i, ans in enumerate(user_answers) if ans is None]
@@ -99,7 +97,7 @@ if st.session_state.get("show_quiz", False):
             else:
                 for i, row in df.iterrows():
                     correct = row["correct"]
-                    user = user_answers[i - 1]
+                    user = user_answers[i - 1] if i - 1 < len(user_answers) else None
                     if user == correct:
                         score += 1
                     else:
@@ -126,7 +124,6 @@ if st.session_state.get("show_quiz", False):
                         st.markdown("📝 **Gemini's Feedback:**")
                         st.info(feedback)
 
-
 # --- Download Section ---
 if 'mcq_generated' in st.session_state and st.session_state.mcq_generated:
     st.subheader("📥 Download Your MCQs")
@@ -134,7 +131,15 @@ if 'mcq_generated' in st.session_state and st.session_state.mcq_generated:
 
     with col1:
         st.download_button("Download as CSV", data=st.session_state.csv_data, file_name="mcqs.csv", mime="text/csv")
+
     with col2:
         st.download_button("Download as TXT", data=st.session_state.txt_data, file_name="mcqs.txt", mime="text/plain")
+
     with col3:
-        st.download_button("Download as PDF", data=st.session_state.pdf_data, file_name="mcqs.pdf", mime="application/pdf")
+        # Ensure proper encoding and MIME type for PDF text file
+        st.download_button(
+            "Download as PDF",
+            data=st.session_state.pdf_data.encode('utf-8'),
+            file_name="mcqs.pdf",
+            mime="application/octet-stream"
+        )
