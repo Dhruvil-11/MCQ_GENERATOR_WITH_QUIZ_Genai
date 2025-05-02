@@ -57,6 +57,7 @@ if button and uploaded_file and mcq_count and subject and level:
                     st.rerun()
 
 # --- Quiz Mode ---
+# --- Quiz Mode ---
 if st.session_state.get("show_quiz", False):
     df = st.session_state.get("quiz_df")
     quiz_data = st.session_state.get("quiz_data")
@@ -76,43 +77,55 @@ if st.session_state.get("show_quiz", False):
             else:
                 options_dict = row["options"]
 
+            option_keys = list(options_dict.keys())
+            placeholder_option = "Select an option"
+            options_with_placeholder = [placeholder_option] + option_keys
+
             user_choice = st.radio(
-                f"Your answer for Q{idx}:", 
-                list(options_dict.keys()), 
-                format_func=lambda x: f"{x}: {options_dict[x]}",
+                f"Your answer for Q{idx}:",
+                options_with_placeholder,
+                format_func=lambda x: f"{x}: {options_dict[x]}" if x in options_dict else x,
+                index=0,
                 key=f"q_{idx}"
             )
-            user_answers.append(user_choice)
+
+            selected_key = user_choice if user_choice != placeholder_option else None
+            user_answers.append(selected_key)
 
         if st.button("Submit Quiz"):
-            for i, row in df.iterrows():
-                correct = row["correct"]
-                user = user_answers[i - 1]
-                if user == correct:
-                    score += 1
-                else:
-                    wrong.append((str(i), user, correct))
+            unanswered = [i + 1 for i, ans in enumerate(user_answers) if ans is None]
+            if unanswered:
+                st.warning(f"Please answer all questions before submitting. Unanswered: {unanswered}")
+            else:
+                for i, row in df.iterrows():
+                    correct = row["correct"]
+                    user = user_answers[i - 1]
+                    if user == correct:
+                        score += 1
+                    else:
+                        wrong.append((str(i), user, correct))
 
-            st.success(f"🎉 You scored {score} out of {len(correct_answers)}.")
-            st.session_state.show_quiz = False
+                st.success(f"🎉 You scored {score} out of {len(correct_answers)}.")
+                st.session_state.show_quiz = False
 
-            if wrong:
-                st.header("🧠 Review Your Mistakes")
+                if wrong:
+                    st.header("🧠 Review Your Mistakes")
 
-                for qid, user_ans, correct_ans in wrong:
-                    q_index = int(qid) - 1
-                    question_obj = quiz_data[q_index]
+                    for qid, user_ans, correct_ans in wrong:
+                        q_index = int(qid) - 1
+                        question_obj = quiz_data[q_index]
 
-                    mcq_text = question_obj["mcq"]
-                    options = question_obj["options"]
+                        mcq_text = question_obj["mcq"]
+                        options = question_obj["options"]
 
-                    feedback = get_gemini_feedback(mcq_text, user_ans, correct_ans)
+                        feedback = get_gemini_feedback(mcq_text, user_ans, correct_ans)
 
-                    st.markdown(f"**Q{qid}: {mcq_text}**")
-                    st.markdown(f"**Your answer:** {user_ans} - {options.get(user_ans, 'N/A')}")
-                    st.markdown(f"**Correct answer:** {correct_ans} - {options.get(correct_ans, 'N/A')}")
-                    st.markdown("📝 **Gemini's Feedback:**")
-                    st.info(feedback)
+                        st.markdown(f"**Q{qid}: {mcq_text}**")
+                        st.markdown(f"**Your answer:** {user_ans} - {options.get(user_ans, 'N/A')}")
+                        st.markdown(f"**Correct answer:** {correct_ans} - {options.get(correct_ans, 'N/A')}")
+                        st.markdown("📝 **Gemini's Feedback:**")
+                        st.info(feedback)
+
 
 # --- Download Section ---
 if 'mcq_generated' in st.session_state and st.session_state.mcq_generated:

@@ -60,7 +60,7 @@ User's Answer: "{user_ans}"
 Correct Answer: "{correct_ans}"
 
 suggest what topic or concept they should review to improve their understanding.
-Give a short explanation and a review topic.Make sure response should be in the format of:
+Give a review topic only. Make sure response should be in the format of:
 need to review topic: topic and concept name only. 
 Web urls : best websites to learn that particular topic. Not more than 3 suggestions. 
 """
